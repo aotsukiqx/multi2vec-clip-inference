@@ -1,6 +1,8 @@
 # multi2vec-clip-inference
 The inference container for the clip module
 
+Modified by Colin for local inference as multi-vec service
+
 ## Documentation
 
 Documentation for this module can be found [here](https://weaviate.io/developers/weaviate/current/retriever-vectorizer-modules/multi2vec-clip.html).

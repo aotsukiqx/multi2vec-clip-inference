@@ -46,12 +46,16 @@ class ClipInferenceSentenceTransformers(ClipInferenceABS):
 
 	def __init__(self, cuda, cuda_core):
 		self.lock = Lock()
-		device = 'cpu'
+		# 检查是否支持MPS
+		if torch.backends.mps.is_available():
+			device = torch.device("mps")
+		else:
+			device = torch.device("cpu")  # 如果不支持MPS，回退到CPU
 		if cuda:
 			device = cuda_core
 
-		self.img_model = SentenceTransformer('./models/clip', device=device)
-		self.text_model = SentenceTransformer('./models/text', device=device)
+		self.img_model = SentenceTransformer('/Volumes/LLMs/clip-ViT-B-32', device=device)
+		self.text_model = SentenceTransformer('/Volumes/LLMs/clip-ViT-B-32-multilingual-v1', device=device)
 
 	def vectorize(self, payload: ClipInput) -> ClipResult:
 		"""
@@ -106,7 +110,11 @@ class ClipInferenceOpenAI:
 
 	def __init__(self, cuda, cuda_core):
 		self.lock = Lock()
-		self.device = 'cpu'
+		# 检查是否支持MPS
+		if torch.backends.mps.is_available():
+			device = torch.device("mps")
+		else:
+			device = torch.device("cpu")  # 如果不支持MPS，回退到CPU
 		if cuda:
 			self.device=cuda_core
 		self.clip_model = CLIPModel.from_pretrained('./models/openai_clip').to(self.device)
@@ -182,7 +190,11 @@ class ClipInferenceOpenCLIP:
 
 	def __init__(self, cuda, cuda_core):
 		self.lock = Lock()
-		self.device = 'cpu'
+		# 检查是否支持MPS
+		if torch.backends.mps.is_available():
+			device = torch.device("mps")
+		else:
+			device = torch.device("cpu")  # 如果不支持MPS，回退到CPU
 		if cuda:
 			self.device=cuda_core
 
